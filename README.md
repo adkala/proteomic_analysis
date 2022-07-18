@@ -2,7 +2,7 @@
 
 ## What is it?
 
-This tool was created for use at JBEI laboratories to automate proteomic analysis. It is a simple script that provides fold change values and p-values in an Excel sheet, and volcano plot figures.
+This tool was created for use by Deepika Awasthi's team at JBEI laboratories to automate proteomic analysis. It is a simple script that provides fold change values and p-values in an Excel sheet, and volcano plot figures.
 
 ## How to use
 
