@@ -93,7 +93,6 @@ def analyze(data_sheet: str, d: str, n: list):
             if total[i][2:].sum() == 0 or (quantitative and (total[i][2:] > quantitative_threshold).sum() < 3):
                 total_delete_row.append(i)
 
-            #OUTLIER CHECKING??? how can we achieve this in n? or can we even??? n^2 is easy
         tf = np.delete(total, total_delete_row, axis=0)
 
         calc = tf[2:, 2:].flatten()[tf[2:, 2:].flatten() < (
