@@ -30,24 +30,21 @@ def envExists(var):
 
 
 # trial numbers
-trial_number = 3 if envExists(TRIAL_NUMBER) else int(TRIAL_NUMBER)
+trial_number = 3 if not envExists(TRIAL_NUMBER) else int(TRIAL_NUMBER)
 # fold change threshold
-fold_change_threshold = 0.5 if envExists(FOLD_CHANGE_THRESHOLD) else float(
+fold_change_threshold = 0.5 if not envExists(FOLD_CHANGE_THRESHOLD) else float(
     FOLD_CHANGE_THRESHOLD)
 # quantitative analysis
-quantitative = True if envExists(QUANTITATIVE) else bool(QUANTITATIVE)
-quantitative_threshold = 5 if envExists(QUANTITATIVE_THRESHOLD) else int(
+quantitative = True if not envExists(QUANTITATIVE) else bool(QUANTITATIVE)
+quantitative_threshold = 5 if not envExists(QUANTITATIVE_THRESHOLD) else int(
     QUANTITATIVE_THRESHOLD)
 
 # input and output folder
 defaultPath = str(pathlib.Path(__file__).parent.resolve()) + os.path.sep
-startPath = defaultPath if envExists(START_PATH) else (os.path.abspath(
+startPath = defaultPath if not envExists(START_PATH) else (os.path.abspath(
     str(START_PATH)) + os.path.sep)
-endPath = defaultPath if envExists(
+endPath = defaultPath if not envExists(
     END_PATH) else (os.path.abspath(str(END_PATH)) + os.path.sep)
-
-print(startPath)
-print(endPath)
 
 
 def random_float(mean, std, seed=""):
@@ -93,8 +90,10 @@ def analyze(data_sheet: str, d: str, n: list):
 
         total_delete_row = []
         for i in range(2, len(total)):
-            if total[i][2:].sum() == 0 or (quantitative and total[i][2:][total[i][2:] > quantitative_threshold].sum() < quantitative_threshold):
+            if total[i][2:].sum() == 0 or (quantitative and (total[i][2:] > quantitative_threshold).sum() < 3):
                 total_delete_row.append(i)
+
+            #OUTLIER CHECKING??? how can we achieve this in n? or can we even??? n^2 is easy
         tf = np.delete(total, total_delete_row, axis=0)
 
         calc = tf[2:, 2:].flatten()[tf[2:, 2:].flatten() < (
