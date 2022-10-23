@@ -33,14 +33,17 @@ This tool was created for use by Deepika Awasthi's team at JBEI laboratories to 
 
    - This can be changed in the .env file with the `START_PATH` variable
 
-6. From terminal, in `proteomics_analysis` folder, run `python3 prot.py *excel files* *denominator* *numerators*`
-   - For example, to compare 'GLU' and 'HBA' against 'PCA' in KT2440_A.xlsx and KT2440_B.xlsx, run `python3 prot.py KT2440_A.xlsx,KT2440_B.xlsx PCA GLU,HBA`
+6. Use Python notebook `prot.ipynb` to run blocks and create figures and Excel files with analyzed data
 
-### .env file
-
-To edit variables such as start path, end path, and quantitative threshold, edit the .env file.
-
-- If you can't see the .env file, enable hidden files in your file explorer.
+   - Legacy option is using the prot_legacy.py script
+      - Does not include following updated features
+         - Outlier checking
+         - L2FC standard deviations
+      - To use:
+         - From terminal, in `proteomics_analysis` folder, run `python3 prot.py *excel files* *denominator* *numerators*`
+            - For example, to compare 'GLU' and 'HBA' against 'PCA' in KT2440_A.xlsx and KT2440_B.xlsx, run `python3 prot.py KT2440_A.xlsx,KT2440_B.xlsx PCA GLU,HBA`
+         - To edit variables such as start path, end path, and quantitative threshold, edit the .env file.
+            - If you can't see the .env file, enable hidden files in your file explorer.
 
 ### Have questions, feedback, or concerns?
 
