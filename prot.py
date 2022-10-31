@@ -46,11 +46,29 @@ startPath = defaultPath if not envExists(START_PATH) else (os.path.abspath(
 endPath = defaultPath if not envExists(
     END_PATH) else (os.path.abspath(str(END_PATH)) + os.path.sep)
 
-
+# Helper function: create random floats
 def random_float(mean, std, seed=""):
     rng = np.random.default_rng() if not seed else np.random.default_rng(seed=seed)
     return rng.uniform(low=mean-std, high=mean+std)
 
+# Helper function: define whether row is an outlier (input is 6-value list, first 3 num, last 3 den)
+def is_outlier(row):
+    num = row[:3]
+    den = row[3:]
+    num.sort()
+    den.sort()
+        
+    #num check
+    if num[0] < np.mean(num[1:]) - quantitative_threshold or num[-1] > np.mean(num[:-1]) + quantitative_threshold:
+        #print("Outlier found in numerator:", num)
+        return True
+    
+    #den check
+    if den[0] < np.mean(den[1:]) - quantitative_threshold or den[-1] > np.mean(den[:-1]) + quantitative_threshold:
+        #print("Outlier found in denominator:", den)
+        return True
+    
+    return False
 
 def analyze(data_sheet: str, d: str, n: list):
     # read excel file
@@ -90,7 +108,7 @@ def analyze(data_sheet: str, d: str, n: list):
 
         total_delete_row = []
         for i in range(2, len(total)):
-            if total[i][2:].sum() == 0 or (quantitative and (total[i][2:] > quantitative_threshold).sum() < 3):
+            if total[i][2:].sum() == 0 or (quantitative and (total[i][2:] > quantitative_threshold).sum() < 3) or is_outlier(total[i][2:]):
                 total_delete_row.append(i)
 
         tf = np.delete(total, total_delete_row, axis=0)
@@ -145,8 +163,6 @@ def analyze(data_sheet: str, d: str, n: list):
         plt.xlabel("Log2 Fold Change")
         plt.ylabel("-Log10 P-Value")
         
-        print(l2fc)
-
         if not os.path.isdir(endPath + "figures"):
             os.makedirs(endPath + "figures")
         plt.savefig(endPath +

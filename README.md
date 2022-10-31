@@ -35,10 +35,7 @@ This tool was created for use by Deepika Awasthi's team at JBEI laboratories to 
 
 6. Use Python notebook `prot.ipynb` to run blocks and create figures and Excel files with analyzed data
 
-   - Legacy option is using the prot_legacy.py script
-      - Does not include following updated features
-         - Outlier checking
-         - L2FC standard deviations
+   - Legacy option is using the prot.py script
       - To use:
          - From terminal, in `proteomics_analysis` folder, run `python3 prot.py *excel files* *denominator* *numerators*`
             - For example, to compare 'GLU' and 'HBA' against 'PCA' in KT2440_A.xlsx and KT2440_B.xlsx, run `python3 prot.py KT2440_A.xlsx,KT2440_B.xlsx PCA GLU,HBA`
