@@ -13,21 +13,15 @@ load_dotenv()
 
 START_PATH = os.getenv('START_PATH')
 END_PATH = os.getenv('END_PATH')
-if len(START_PATH) > 0 and START_PATH[0] == '~':
-    START_PATH = os.path.expanduser(START_PATH)
-if len(END_PATH) > 0 and END_PATH[0] == '~':
-    END_PATH = os.path.expanduser(END_PATH)
 
 QUANTITATIVE = False if os.getenv('QUANTITATIVE') == 'false' else True
 QUANTITATIVE_THRESHOLD = os.getenv('QUANTITATIVE_THRESHOLD')
 TRIAL_NUMBER = os.getenv('TRIAL_NUMBER')
 FOLD_CHANGE_THRESHOLD = os.getenv('FOLD_CHANGE_THRESHOLD')
 
-
 def envExists(var):
     if var is None or var == '':
         return False
-
 
 # trial numbers
 trial_number = 3 if not envExists(TRIAL_NUMBER) else int(TRIAL_NUMBER)
@@ -40,6 +34,11 @@ quantitative_threshold = 5 if not envExists(QUANTITATIVE_THRESHOLD) else int(
     QUANTITATIVE_THRESHOLD)
 
 # input and output folder
+if envExists(START_PATH) and len(START_PATH) > 0 and START_PATH[0] == '~':
+    START_PATH = os.path.expanduser(START_PATH)
+if envExists(START_PATH) and len(END_PATH) > 0 and END_PATH[0] == '~':
+    END_PATH = os.path.expanduser(END_PATH)
+
 defaultPath = str(pathlib.Path(__file__).parent.resolve()) + os.path.sep
 startPath = defaultPath if not envExists(START_PATH) else (os.path.abspath(
     str(START_PATH)) + os.path.sep)
