@@ -151,6 +151,13 @@ def analyze(data_sheet: str, d: str, n: list):
                 sig.append(" ")
                 rest.append([l2fc[-1], nl10pv[-1]])
 
+        l2fc_std = ['L2FC_STD']
+        av = np.average(l2fc[1:])
+        std = np.std(l2fc[1:])
+        for fc in l2fc[1:]:
+            fc_std = (fc - av) / std
+            l2fc_std.append(fc_std)
+
         up_scatter = plt.scatter([i[0] for i in up], [i[1]
                                  for i in up], c="blue")
         down_scatter = plt.scatter([i[0] for i in down], [
@@ -168,7 +175,7 @@ def analyze(data_sheet: str, d: str, n: list):
                     "figures/" + data_sheet[:data_sheet.index(".")] + "_" + d + "_VS_" + x + ".png")
 
         tf = np.hstack((tf, np.array(l2fc).reshape(-1, 1),
-                       np.array(nl10pv).reshape(-1, 1), np.array(sig).reshape(-1, 1)))
+                       np.array(nl10pv).reshape(-1, 1), np.array(l2fc_std).reshape(-1, 1), np.array(sig).reshape(-1, 1)))
 
         analyzed[x] = pd.DataFrame(tf)
 
